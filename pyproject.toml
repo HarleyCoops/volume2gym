@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "volume2gym"
+version = "0.1.0"
+description = "Compile structured volumes into source-grounded learning environments."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "Christian Harley Cooper" }]
+keywords = ["reinforcement-learning", "datasets", "evaluation", "knowledge-extraction"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "pydantic>=2.10,<3",
+]
+
+[project.optional-dependencies]
+pdf = ["PyMuPDF>=1.24"]
+anthropic = ["anthropic>=0.45"]
+gemini = ["google-generativeai>=0.8"]
+gym = ["gymnasium>=1.0"]
+huggingface = ["datasets>=3.0", "huggingface-hub>=0.27"]
+dev = [
+  "build>=1.2",
+  "pytest>=8.3",
+  "pytest-cov>=6.0",
+  "ruff>=0.9",
+]
+
+[project.scripts]
+v2g = "volume2gym.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/HarleyCoops/volume2gym"
+Repository = "https://github.com/HarleyCoops/volume2gym"
+Dataset = "https://huggingface.co/datasets/HarleyCooper/volume2gym-railroad-1959"
+Model = "https://huggingface.co/HarleyCooper/Qwen3-4B-RailRoadEngineer1959"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/volume2gym"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["legacy"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

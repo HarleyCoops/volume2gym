@@ -1,0 +1,29 @@
+{
+  "rule_id": "Rule 99",
+  "condition_weights": {
+    "train stopped where it may be overtaken": 1.0,
+    "rear of train is exposed to following movement": 1.0
+  },
+  "required_action_weights": {
+    "protect the rear immediately": 1.0,
+    "send the flagman back with proper signals": 1.0,
+    "place torpedoes at the required protection distance": 1.0,
+    "use fusees when conditions require": 1.0
+  },
+  "forbidden_action_weights": {
+    "leave the train unprotected": 1.0,
+    "wait for dispatcher permission before protecting the train": 1.0,
+    "move before protection is established": 1.0
+  },
+  "procedure_order_weights": {
+    "recognize exposure": 1.0,
+    "establish rear protection": 1.0,
+    "communicate status": 1.0,
+    "resume only when safe and authorized": 1.0
+  },
+  "terminology_weights": {
+    "flagman": 1.0,
+    "torpedoes": 1.0,
+    "fusees": 1.0
+  }
+}

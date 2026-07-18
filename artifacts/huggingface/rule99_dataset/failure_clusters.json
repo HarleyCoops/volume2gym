@@ -1,0 +1,9 @@
+[
+  {
+    "component": "safety_critical_required_actions",
+    "count": 1,
+    "task_ids": [
+      "railroad_1959.rule_99.stop_overtaken.standard"
+    ]
+  }
+]

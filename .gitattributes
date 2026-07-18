@@ -1,0 +1,4 @@
+# Preserve byte-identical upstream snapshots, including their historical
+# line endings and whitespace.
+legacy/** -text whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+artifacts/huggingface/** -text whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab

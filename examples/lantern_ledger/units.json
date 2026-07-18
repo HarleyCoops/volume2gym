@@ -1,0 +1,152 @@
+[
+  {
+    "schema_version": "0.1",
+    "unit_id": "lantern-turn-open",
+    "kind": "procedure",
+    "title": "Open a turn",
+    "text": "At the start of a turn, draw exactly one lantern card, place it face up in the active row, and announce its color before taking another action.",
+    "family": "turn-sequence",
+    "section": "Turn structure",
+    "citations": [
+      {
+        "schema_version": "0.1",
+        "document_id": "lantern-ledger-demo",
+        "span_id": "lantern-ledger-demo:turn-open",
+        "page_number": 1,
+        "section": "Turn structure",
+        "locator": "Rule T1",
+        "quote": "At the start of a turn, draw exactly one lantern card, place it face up in the active row, and announce its color before taking another action.",
+        "confidence": 1.0
+      }
+    ],
+    "conditions": [
+      "A new turn has begun."
+    ],
+    "required_actions": [
+      "Draw exactly one lantern card.",
+      "Place the card face up in the active row.",
+      "Announce the card's color before taking another action."
+    ],
+    "forbidden_actions": [
+      "Take another action before announcing the lantern color."
+    ],
+    "procedure_steps": [
+      "Draw one lantern card.",
+      "Place it face up.",
+      "Announce its color."
+    ],
+    "exceptions": [],
+    "terms": [
+      "lantern card",
+      "active row"
+    ],
+    "related_unit_ids": [],
+    "confidence": 1.0,
+    "review_status": "reviewed",
+    "metadata": {
+      "rights": "Original synthetic example; Apache-2.0",
+      "source_type": "fictional tabletop protocol"
+    }
+  },
+  {
+    "schema_version": "0.1",
+    "unit_id": "ledger-spend-light",
+    "kind": "rule",
+    "title": "Spend recorded light",
+    "text": "To spend light, cross out the chosen number of light marks in the ledger before moving a piece. A player may not spend more light than the ledger currently records.",
+    "family": "resource-ledger",
+    "section": "Light and the ledger",
+    "citations": [
+      {
+        "schema_version": "0.1",
+        "document_id": "lantern-ledger-demo",
+        "span_id": "lantern-ledger-demo:spend-light",
+        "page_number": 2,
+        "section": "Light and the ledger",
+        "locator": "Rule L1",
+        "quote": "To spend light, cross out the chosen number of light marks in the ledger before moving a piece. A player may not spend more light than the ledger currently records.",
+        "confidence": 1.0
+      }
+    ],
+    "conditions": [
+      "A player chooses an action that costs light."
+    ],
+    "required_actions": [
+      "Cross out the chosen number of light marks before moving a piece."
+    ],
+    "forbidden_actions": [
+      "Spend more light than the ledger records.",
+      "Move a piece before recording the light cost."
+    ],
+    "procedure_steps": [
+      "Choose the amount of light to spend.",
+      "Confirm the ledger records at least that amount.",
+      "Cross out the light marks.",
+      "Move the piece."
+    ],
+    "exceptions": [],
+    "terms": [
+      "light mark",
+      "ledger"
+    ],
+    "related_unit_ids": [],
+    "confidence": 1.0,
+    "review_status": "reviewed",
+    "metadata": {
+      "rights": "Original synthetic example; Apache-2.0",
+      "source_type": "fictional tabletop protocol"
+    }
+  },
+  {
+    "schema_version": "0.1",
+    "unit_id": "echo-card-exception",
+    "kind": "rule",
+    "title": "Resolve an Echo card",
+    "text": "When the drawn lantern card is marked Echo, announce its color as usual, return the card to the bottom of the lantern deck, and do not place it in the active row.",
+    "family": "card-exceptions",
+    "section": "Special cards",
+    "citations": [
+      {
+        "schema_version": "0.1",
+        "document_id": "lantern-ledger-demo",
+        "span_id": "lantern-ledger-demo:echo-card",
+        "page_number": 3,
+        "section": "Special cards",
+        "locator": "Rule E1",
+        "quote": "When the drawn lantern card is marked Echo, announce its color as usual, return the card to the bottom of the lantern deck, and do not place it in the active row.",
+        "confidence": 1.0
+      }
+    ],
+    "conditions": [
+      "The drawn lantern card is marked Echo."
+    ],
+    "required_actions": [
+      "Announce the Echo card's color.",
+      "Return the Echo card to the bottom of the lantern deck."
+    ],
+    "forbidden_actions": [
+      "Place an Echo card in the active row."
+    ],
+    "procedure_steps": [
+      "Announce the card's color.",
+      "Return the card to the bottom of the deck."
+    ],
+    "exceptions": [
+      "An Echo card is returned to the deck instead of entering the active row."
+    ],
+    "terms": [
+      "Echo card",
+      "lantern deck",
+      "active row"
+    ],
+    "related_unit_ids": [
+      "lantern-turn-open"
+    ],
+    "confidence": 1.0,
+    "review_status": "reviewed",
+    "metadata": {
+      "rights": "Original synthetic example; Apache-2.0",
+      "source_type": "fictional tabletop protocol"
+    }
+  }
+]

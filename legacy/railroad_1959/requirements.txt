@@ -1,0 +1,15 @@
+# Core
+numpy
+pandas
+pydantic
+
+# Extraction
+pypdf
+pymupdf
+openai
+anthropic
+
+# RL
+gymnasium
+torch
+wandb

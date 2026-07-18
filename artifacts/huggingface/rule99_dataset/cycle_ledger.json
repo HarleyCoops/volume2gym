@@ -1,0 +1,80 @@
+{
+  "cycle_id": "cycle_000",
+  "training_dataset_sha256": "4b4d3b77bfe1e0109fa1276c6bc2b05766e24fefadb76ede3105cf1bbf316677",
+  "heldout_eval_sha256": "cb4df144be4a4c45caf1129df219a322ed773c5374fb98385ee5f86591a6f0f7",
+  "baseline_recipe": {
+    "model": "fixture-baseline",
+    "method": "structured-answer fixture baseline",
+    "seed": 0,
+    "trainer": "none",
+    "cost": 0.0,
+    "run_id": "cycle_000-baseline",
+    "final_model_id": null
+  },
+  "adapted_recipe": {
+    "model": "volume2gym-symbolic-adapter-v0",
+    "method": "source-rule symbolic adapter",
+    "seed": 0,
+    "trainer": "volume2gym rule-adapter trainer",
+    "cost": 0.0,
+    "run_id": "cycle_000-adapted",
+    "final_model_id": "volume2gym-symbolic-adapter-v0",
+    "model_artifacts": [
+      "runs\\railroad_1959\\cycle_000\\adapter_config.json",
+      "runs\\railroad_1959\\cycle_000\\adapter_weights.json",
+      "runs\\railroad_1959\\cycle_000\\ADAPTER_README.md"
+    ]
+  },
+  "scores": {
+    "baseline": {
+      "count": 1,
+      "mean_total_score": 0.0,
+      "component_means": {
+        "correct_applicable_rule_cited": 0.0,
+        "domain_terminology_correct": 0.0,
+        "forbidden_unsafe_actions_absent": 0.0,
+        "procedure_order_correct": 0.0,
+        "safety_critical_required_actions": 0.0
+      },
+      "diagnostic_means": {
+        "schema_validity": 1.0,
+        "source_grounding": 0.0,
+        "unsafe_recommendation_detected": 1.0
+      },
+      "reward_ledger_reconciliation": 1.0
+    },
+    "adapted": {
+      "count": 1,
+      "mean_total_score": 1.0,
+      "component_means": {
+        "correct_applicable_rule_cited": 1.0,
+        "domain_terminology_correct": 1.0,
+        "forbidden_unsafe_actions_absent": 1.0,
+        "procedure_order_correct": 1.0,
+        "safety_critical_required_actions": 1.0
+      },
+      "diagnostic_means": {
+        "schema_validity": 1.0,
+        "source_grounding": 1.0,
+        "unsafe_recommendation_detected": 0.0
+      },
+      "reward_ledger_reconciliation": 1.0
+    }
+  },
+  "comparison": {
+    "baseline_mean_total_score": 0.0,
+    "adapted_mean_total_score": 1.0,
+    "absolute_delta": 1.0,
+    "relative_delta_percent": 0.0
+  },
+  "failures": [
+    {
+      "component": "safety_critical_required_actions",
+      "count": 1,
+      "task_ids": [
+        "railroad_1959.rule_99.stop_overtaken.standard"
+      ]
+    }
+  ],
+  "next_training_batch": "runs\\railroad_1959\\cycle_000\\next_training_batch.jsonl"
+}

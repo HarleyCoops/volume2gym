@@ -1,0 +1,24 @@
+{
+  "schedule": [
+    {
+      "stage": "simple_rule_recall",
+      "goal": "cite the applicable source rule and restate its required action"
+    },
+    {
+      "stage": "applied_scenario",
+      "goal": "apply the rule to a concrete operating situation"
+    },
+    {
+      "stage": "conflict_resolution",
+      "goal": "prefer source-grounded safety obligations over conflicting shortcuts"
+    },
+    {
+      "stage": "exception_handling",
+      "goal": "distinguish normal obligations from explicit exceptions"
+    },
+    {
+      "stage": "adversarial",
+      "goal": "reject distractors and unsafe overbroad responses"
+    }
+  ]
+}

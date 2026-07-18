@@ -1,0 +1,26 @@
+{
+  "artifact_type": "volume2gym_symbolic_adapter",
+  "model_id": "volume2gym-symbolic-adapter-v0",
+  "trainer": "volume2gym rule-adapter trainer",
+  "training_examples": 6,
+  "rule_family": "train_protection",
+  "source": {
+    "volume_title": "1959 railroad operating-rule proof volume",
+    "page_number": 123,
+    "section": "Rule 99",
+    "rule_id": "Rule 99",
+    "source_span": "rule-99.short-excerpt",
+    "confidence": 0.74
+  },
+  "output_contract": {
+    "format": "structured_answer_json",
+    "fields": [
+      "applicable_rules",
+      "situation_type",
+      "required_actions",
+      "forbidden_actions",
+      "procedure_order",
+      "final_answer"
+    ]
+  }
+}

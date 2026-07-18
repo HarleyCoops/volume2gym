@@ -1,0 +1,65 @@
+{
+  "schema_version": "0.1",
+  "snapshots": [
+    {
+      "id": "railroad-1959-source",
+      "host": "github",
+      "repository": "https://github.com/HarleyCoops/Qwen3-RailroadEngineer1959-RL",
+      "revision": "40dbac3a10f53fb77326aa9253c4ba7f3d48020c",
+      "source_path": "RailroadEngineer1959",
+      "source_tree": "7a680fb7b95dd30617d9f60ea4d526446709ab3d",
+      "local_path": "legacy/railroad_1959",
+      "included_file_count": 26,
+      "copy_policy": "byte-identical complete source subtree",
+      "excluded": [
+        "source PDF",
+        "unrelated repository-root domains and generated outputs"
+      ]
+    },
+    {
+      "id": "rule99-dataset-fixture",
+      "host": "huggingface",
+      "repository": "https://huggingface.co/datasets/HarleyCooper/volume2gym-railroad-1959",
+      "revision": "5e9e62bf1d8a9f07df9408e173be6b463983b199",
+      "local_path": "artifacts/huggingface/rule99_dataset",
+      "included_file_count": 16,
+      "copy_policy": "all published cards and structured artifacts",
+      "excluded": [
+        ".gitattributes",
+        "demo_video.mp4"
+      ]
+    },
+    {
+      "id": "rule99-symbolic-adapter",
+      "host": "huggingface",
+      "repository": "https://huggingface.co/HarleyCooper/volume2gym-railroad-1959-adapter",
+      "revision": "1f24fd206d88bc67110461b63aee8f99b34ce61a",
+      "local_path": "artifacts/huggingface/rule99_adapter",
+      "included_file_count": 5,
+      "copy_policy": "all published cards and structured artifacts",
+      "excluded": [
+        ".gitattributes"
+      ]
+    },
+    {
+      "id": "qwen3-4b-railroad-lora",
+      "host": "huggingface",
+      "repository": "https://huggingface.co/HarleyCooper/Qwen3-4B-RailRoadEngineer1959",
+      "revision": "a5260867134d308ee1d3175d387c48dff46acfdd",
+      "local_path": "artifacts/huggingface/qwen3_4b_lora",
+      "included_file_count": 2,
+      "copy_policy": "card and adapter configuration only",
+      "external_weight": {
+        "path": "adapter_model.safetensors",
+        "size_bytes": 142076360,
+        "sha256": "8642e8b135c0ccb660c6a8f1727abfd774f4239c53ea2b5e5f724c3c9cd72f81"
+      },
+      "excluded": [
+        ".gitattributes",
+        "adapter_model.safetensors",
+        "preview.jpg",
+        "visualizations/"
+      ]
+    }
+  ]
+}

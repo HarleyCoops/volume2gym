@@ -1,0 +1,15 @@
+[project]
+name = "railroad_1959"
+version = "0.1.7"
+description = "Railroad Engineer 1959 RL Environment"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "verifiers",
+    "anthropic",
+    "python-dotenv",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
