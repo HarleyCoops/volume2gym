@@ -235,6 +235,7 @@ is also not a neural checkpoint.
 | One-rule dataset fixture | [volume2gym-railroad-1959](https://huggingface.co/datasets/HarleyCooper/volume2gym-railroad-1959) | Rule 99 contract fixture only |
 | One-rule symbolic adapter | [volume2gym-railroad-1959-adapter](https://huggingface.co/HarleyCooper/volume2gym-railroad-1959-adapter) | Inspectable non-neural reference |
 | Pinned local card/data snapshots | [`artifacts/huggingface/`](artifacts/huggingface/) | Small regression artifacts; large weights remain on HF |
+| Coordinated Hub card sources | [`cards/huggingface/`](cards/huggingface/) | Reciprocal dataset/model-card copy with explicit scope boundaries |
 
 There are no private repository links in the public project story.
 
@@ -281,6 +282,7 @@ volume2gym/
 ├── examples/lantern_ledger/   # original, rights-safe non-railroad proof
 ├── legacy/railroad_1959/      # preserved predecessor; unsupported API
 ├── artifacts/huggingface/     # pinned small HF card/data snapshots
+├── cards/huggingface/         # coordinated live Hub card sources
 ├── provenance/upstreams.json  # machine-readable source revisions and omissions
 ├── docs/migration.md          # legacy-to-generic responsibility map
 └── tests/                     # offline contracts and integration tests
