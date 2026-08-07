@@ -25,6 +25,8 @@ The Python package remains `volume2gym` during the compatibility phase. Do not r
 8. Do not add credentials, tokens, private source scans, or generated model weights to Git.
 9. Do not turn the railroad proof case into the product identity. Railroad is the first useful proof volume; the thesis is general source-to-agent compilation.
 10. Do not reintroduce Dakota or other community-language projects into this flagship repository. Those remain separate, ethically bounded case studies.
+11. Treat Entire as the coding-agent trace layer. Prime Agent is Pi-based, so use Entire's `pi` integration when tracing Prime Agent sessions; do not invent a `prime-agent` adapter.
+12. Do not push prompts, transcripts, or checkpoint metadata to the public code branch without an explicit privacy decision. Entire redaction is best-effort; keep credentials and private source material out of agent context.
 
 ## Definition of done for the flagship
 
@@ -36,6 +38,7 @@ The project is ready for a first public release when all of these are true:
 - The HTTP deployment smoke test returns `healthy` and compiles the fixture.
 - The README explains the product, the compatibility boundary, and the evidence limits.
 - A Prime Agent run can execute the quality gate without network access.
+- An Entire session/checkpoint can be linked to the corresponding commit/PR and gate result, without weakening the code/evaluation evidence boundary.
 - The full-book railroad run has a separate, explicit evidence record; it is not implied by the fixture.
 - A Prime Lab / verifiers.v1 environment is added only after its exact taskset, harness, runtime, and reward contract are implemented and tested.
 
@@ -67,5 +70,17 @@ Use subagents for bounded, reviewable work:
 - `deployment-engineer`: run the local HTTP/Docker smoke test and improve only deployment files.
 - `prime-integration`: map the current artifacts to Prime Intellect verifiers.v1 without inventing an environment ID.
 - `evidence-editor`: update README and model/evaluation claims from existing artifacts only.
+- `trace-auditor`: verify Entire session/checkpoint coverage and privacy before a traced agent run is pushed.
 
 Every subagent must report changed files, commands run, failures, and remaining uncertainty. Merge no subagent output without inspecting the diff and rerunning the gate.
+
+## Trace integration
+
+See `docs/integrations/entire.md`. The intended setup for a Prime Agent worktree is:
+
+```bash
+entire enable --agent pi
+entire status
+```
+
+Entire explains how a coding agent reached a commit; Source2Agent artifacts and the quality gate prove what the repository does. Keep those claims separate.
