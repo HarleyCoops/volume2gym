@@ -1,44 +1,106 @@
 <div align="center">
 
-# Volume2Gym
+# Source2Agent
 
-### Any single structured volume can become an RL gym that produces trainable models.
+### Compile authoritative source into executable, verifiable agents.
 
-**Compile a book into grounded tasks, inspectable rewards, structural holdouts,
-trainer-ready records, and a learning loop.**
+**Source → cited knowledge → taskset → verifier → model improvement → deployed evidence**
 
-[Generic compiler](#the-executable-core) ·
-[Non-railroad quickstart](#quickstart-compile-a-fictional-volume) ·
-[Railroad lineage](#the-entire-book-not-one-rule) ·
-[Hugging Face dataset](https://huggingface.co/datasets/HarleyCooper/volume2gym-railroad-1959) ·
-[Qwen3-4B LoRA](https://huggingface.co/HarleyCooper/Qwen3-4B-RailRoadEngineer1959)
+[Operational runbook](docs/prime-agent-runbook.md) ·
+[Architecture](docs/architecture/source-to-agent.md) ·
+[Deployment](deploy/README.md) ·
+[Entire tracing integration](docs/integrations/entire.md) ·
+[Lantern & Ledger fixture](examples/lantern_ledger/)
 
-`offline-first` · `provider-neutral` · `source-grounded` · `deterministic artifacts`
+`offline-first` · `source-grounded` · `deterministic artifacts` · `Prime Agent ready`
 
 </div>
 
 ---
 
-**Status — 18 July 2026:** executable v0.1 generic core, deterministic CLI,
-offline test suite, trainer exports, symbolic reference evaluation, preserved
-railroad lineage, and a rights-safe non-railroad proof volume. Reproducible
-full-book neural training and model-level generalization remain open work.
+Source2Agent is the product rebrand of this repository. The implementation currently ships as the compatible `volume2gym` Python package, with `v2g`, `source2agent`, and `s2a` command aliases. The eventual GitHub repository rename is intentionally a separate administrative step so existing links remain recoverable during migration.
 
-> **A structured volume is a compressed environment.** Its sections name the
-> world; its rules constrain action; its procedures encode order; its exceptions
-> define edge cases; and its warnings describe failure. Volume2Gym makes that
-> latent environment executable.
+> **A structured volume is a compressed environment.** Its sections name the world; its rules constrain action; its procedures encode order; its exceptions define edge cases; and its warnings describe failure. Source2Agent makes that latent environment executable.
 
-The project is not a question-answer generator wrapped in Gym vocabulary. It is
-a compiler and artifact contract: every task retains its source units and
-citations, every split holds out complete semantic groups, every deterministic
-score has an inspectable component ledger, and every failure can become the
-next curriculum request.
+## What is operational now
 
-The gym is the training interface. A trainer consumes its tasks and rewards to
-produce an adapted model. That boundary is deliberate: the same compiled volume
-can drive SFT, GRPO-style optimization, another RL stack, or a transparent
-symbolic reference policy without changing the source contract.
+- A dependency-light compiler turns cited knowledge units into six task families.
+- Grouped train/dev/test holdouts prevent connected semantic units from leaking across splits.
+- Deterministic verifiers emit inspectable reward ledgers and failure clusters.
+- SFT and GRPO-ready records, symbolic reference evaluation, and SHA-256 manifests are produced locally.
+- `deploy/server.py` exposes `/health`, `/compile`, and `/reference-eval`; Docker packaging is included.
+- `scripts/prime-agent-gate.sh` is an offline completion gate for Prime Agent autonomous runs.
+- Entire's Pi integration records the coding-agent session and checkpoint path alongside the reviewed commit; it does not replace the quality gate or model evidence.
+- The Lantern & Ledger fixture is the rights-safe smoke test.
+
+The local fixture is a contract proof, not a neural training result. Full-book railroad training, model-level generalization, Prime Lab hosted evaluation, and neural inference deployment remain explicit milestones rather than implied claims.
+
+## Source to agent
+
+```mermaid
+flowchart TD
+    A["Authoritative source"] --> B["Cited knowledge units"]
+    B --> C["Taskset + structural holdouts"]
+    C --> D["Verifier + reward ledger"]
+    D --> E["Prime Agent / trainer harness"]
+    E --> F["Evaluated model + rollout"]
+    F --> G["Deployment with evidence"]
+```
+
+## Run the local vertical slice
+
+```bash
+python -m pip install -e ".[dev]"
+bash scripts/prime-agent-gate.sh
+```
+
+The gate compiles, validates, inspects, and symbolically evaluates the Lantern fixture. It never downloads a model, spends hosted credits, or requires an API key.
+
+## Launch the Prime Agent build harness
+
+```bash
+prime-agent \
+  --goal "Make Source2Agent operational from source volume to verified artifact and local deployment." \
+  --autonomous \
+  --autonomous-gate "bash scripts/prime-agent-gate.sh" \
+  --autonomous-max-turns 24 \
+  --autonomous-timeout-ms 3600000
+```
+
+Read [the full runbook](docs/prime-agent-runbook.md) first. Prime Agent is the coding/research harness; it is not conflated with the model trained on a Source2Agent taskset.
+
+## Run the deployment contract
+
+```bash
+docker build -t source2agent:local .
+docker run --rm -p 8000:8000 source2agent:local
+curl http://127.0.0.1:8000/health
+```
+
+See [deploy/README.md](deploy/README.md) for the compile and symbolic-reference requests and the evidence required before calling a hosted endpoint deployed.
+
+## Product boundary
+
+Source2Agent is not a question-answer generator wrapped in RL vocabulary. Every task retains its source units and citations, every split holds out complete semantic groups, every deterministic score has an inspectable component ledger, and every failure can become the next curriculum request.
+
+The railroad material is the first useful proof volume, not the product identity. The thesis is generalized compilation of structured knowledge into inspectable learning environments and deployed agents.
+
+## Evidence boundary
+
+Do not claim that a model learned an entire source, generalized to a new volume, or improved itself unless the repository contains the pinned source revision, task counts, holdout policy, model/trainer configuration, evaluation artifacts, and reproducible run record.
+
+## Repository map
+
+| Path | Role |
+|---|---|
+| `src/volume2gym/` | Compatible compiler and learning-environment engine |
+| `examples/lantern_ledger/` | Rights-safe local fixture |
+| `deploy/` | Dependency-light operational API |
+| `docs/architecture/` | Product and evidence contract |
+| `docs/prime-agent-runbook.md` | Prime Agent and Prime Lab workflow |
+| `docs/integrations/entire.md` | Entire coding-agent tracing and privacy contract |
+| `scripts/prime-agent-gate.sh` | Offline autonomous completion gate |
+| `legacy/railroad_1959/` | Historical railroad lineage and provenance |
 
 ## From one volume to a learning loop
 
@@ -217,7 +279,7 @@ is also not a neural checkpoint.
 
 | Scope | Role | What is public now |
 |---|---|---|
-| **Volume2Gym** | General compiler and learning contract | Executable package, tests, CLI, non-railroad example, legacy adapter |
+| **Source2Agent** | General compiler and learning contract | Executable package, tests, CLI, non-railroad example, legacy adapter |
 | **Railroad Engineer 1959** | First reported full-volume implementation lineage | Extraction/environment code and pipeline notes; merged reported corpus absent |
 | **Rule 99 fixture** | One-rule regression and artifact-contract test | Six train rows, one held-out row, ledgers, curriculum artifacts, symbolic adapter |
 | **Qwen3-4B railroad LoRA** | Neural artifact in the broader railroad lineage | Adapter weights and card; exact full training recipe is incomplete |
@@ -226,7 +288,7 @@ is also not a neural checkpoint.
 
 | Artifact | Link | Evidence boundary |
 |---|---|---|
-| Volume2Gym source | [HarleyCoops/volume2gym](https://github.com/HarleyCoops/volume2gym) | Canonical generic implementation |
+| Source2Agent source | [HarleyCoops/volume2gym](https://github.com/HarleyCoops/volume2gym) | Canonical generic implementation |
 | Historical railroad source | [Qwen3-RailroadEngineer1959-RL](https://github.com/HarleyCoops/Qwen3-RailroadEngineer1959-RL/tree/main/RailroadEngineer1959) | Domain-specific predecessor |
 | Full-pipeline implementation point | [`bf50635`](https://github.com/HarleyCoops/Qwen3-RailroadEngineer1959-RL/commit/bf50635729f6edaf8926f0c5c8d6037ce00f377c) | Historical source revision |
 | Railroad pipeline notes | [PIPELINE_README.md](https://github.com/HarleyCoops/Qwen3-RailroadEngineer1959-RL/blob/main/RailroadEngineer1959/PIPELINE_README.md) | Reports 536 rules and 2,708 scenarios |
@@ -329,7 +391,7 @@ railroad scan and full derived corpus are not copied into this repository;
 their provenance and redistribution basis must be resolved before repackaging.
 Pinned Hugging Face snapshots retain their upstream scope and metadata.
 
-Volume2Gym preserves citations so rights and provenance can remain attached to
+Source2Agent preserves citations so rights and provenance can remain attached to
 derived tasks. A real release should also record the source hash, compiler
 version, prompt/provider configuration where used, seed, artifact hashes, and
 the license or rights status of every input.
