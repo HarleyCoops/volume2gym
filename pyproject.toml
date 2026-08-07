@@ -64,6 +64,7 @@ packages = ["src/volume2gym"]
 
 [tool.pytest.ini_options]
 addopts = "-q"
+pythonpath = ["."]
 testpaths = ["tests"]
 
 [tool.ruff]
