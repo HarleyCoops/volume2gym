@@ -3,7 +3,6 @@ from pathlib import Path
 
 from deploy.server import _compile, _reference_eval
 
-
 FIXTURE = Path(__file__).parents[1] / "examples" / "lantern_ledger" / "units.json"
 
 
