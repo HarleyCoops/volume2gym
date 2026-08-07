@@ -16,6 +16,17 @@ After installation:
 
 Use a disposable clone or clean worktree. Authenticate with the Prime Intellect subscription or API-key provider you intend to use. Do not place credentials in this repository.
 
+## Enable Entire tracing
+
+Entire is the Git-native trace layer for the coding-agent loop. Prime Agent is Pi-based, so enable Entire's Pi integration in the same worktree before launching Prime Agent:
+
+```bash
+entire enable --agent pi
+entire status
+```
+
+Entire stores session/checkpoint metadata separately from the active code branch and can connect the coding-agent trajectory to the eventual commit. The repository's `docs/integrations/entire.md` covers the public-repository privacy boundary. Do not push prompts, transcripts, private source material, or credentials to a public checkpoint branch without an explicit decision.
+
 ## Start the Source2Agent build session
 
 From the repository root:
@@ -31,7 +42,7 @@ prime-agent \
   --autonomous-timeout-ms 3600000
 ```
 
-The gate is deliberately offline. A passed gate proves only the local compiler, verifier, fixture, and deployment contract; it does not prove a trained model or hosted deployment.
+The gate is deliberately offline. A passed gate proves only the local compiler, verifier, fixture, and deployment contract; it does not prove a trained model or hosted deployment. Entire tracing explains the agent's engineering path; it is not a substitute for the gate or model evidence.
 
 ## Recommended first prompt
 
@@ -57,7 +68,8 @@ Use `/refine` only after a quality-gated run. Persist small lessons such as:
 - a recurring failure mode and its verified fix;
 - a stable deployment command;
 - a source-provenance invariant;
-- a Prime integration convention confirmed by current official documentation.
+- a Prime integration convention confirmed by current official documentation;
+- an Entire tracing convention confirmed by `entire status` and a linked checkpoint.
 
 Do not let the harness rewrite product claims, source licenses, or ethical boundaries from a single successful rollout. Review every refinement as a normal code change.
 
