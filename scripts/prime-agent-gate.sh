@@ -6,22 +6,23 @@ set -euo pipefail
 
 repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
+python_bin="${PYTHON_BIN:-python}"
 
 build_dir="$(mktemp -d /tmp/source2agent-gate.XXXXXX)"
 trap 'rm -rf "$build_dir"' EXIT
 
-python -m pytest
-python -m ruff check .
+"$python_bin" -m pytest
+"$python_bin" -m ruff check .
 
-python -m volume2gym compile \
+"$python_bin" -m volume2gym compile \
   --volume-id lantern-ledger-demo \
   --units examples/lantern_ledger/units.json \
   --output "$build_dir/build" \
   --seed 7
 
-python -m volume2gym validate "$build_dir/build"
-python -m volume2gym inspect-artifacts "$build_dir/build"
-python -m volume2gym reference-eval "$build_dir/build" \
+"$python_bin" -m volume2gym validate "$build_dir/build"
+"$python_bin" -m volume2gym inspect-artifacts "$build_dir/build"
+"$python_bin" -m volume2gym reference-eval "$build_dir/build" \
   --output "$build_dir/reference-eval" \
   --split test
 
