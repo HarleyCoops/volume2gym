@@ -23,9 +23,14 @@ def test_deployed_compile_contract():
     assert result["product"] == "Source2Agent"
     assert result["engine"] == "volume2gym"
     assert result["validated"]["valid"] is True
-    assert result["task_count"] == 18
-    assert result["split_counts"] == {"train": 6, "dev": 6, "test": 6}
-    assert result["artifact_count"] == 5
+    assert result["validated"]["task_count"] == 18
+    assert result["validated"]["split_counts"] == {
+        "train": 6,
+        "dev": 6,
+        "test": 6,
+    }
+    assert result["validated"]["artifact_count"] == 5
+    assert result["inspection"]["task_family_counts"]
 
 
 def test_deployed_reference_eval_contract():
