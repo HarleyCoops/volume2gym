@@ -5,13 +5,20 @@ build-backend = "hatchling.build"
 [project]
 name = "volume2gym"
 version = "0.1.0"
-description = "Compile structured volumes into source-grounded learning environments."
+description = "Source2Agent compiler for source-grounded, verifiable agent environments."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 authors = [{ name = "Christian Harley Cooper" }]
-keywords = ["reinforcement-learning", "datasets", "evaluation", "knowledge-extraction"]
+keywords = [
+  "agents",
+  "evaluation",
+  "knowledge-extraction",
+  "reinforcement-learning",
+  "verifiers",
+  "source-grounded-ai",
+]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Science/Research",
@@ -39,11 +46,16 @@ dev = [
 ]
 
 [project.scripts]
+# Compatibility command.
 v2g = "volume2gym.cli:main"
+# Product-facing aliases; imports remain volume2gym until the compatibility migration is complete.
+source2agent = "volume2gym.cli:main"
+s2a = "volume2gym.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/HarleyCoops/volume2gym"
 Repository = "https://github.com/HarleyCoops/volume2gym"
+Documentation = "https://github.com/HarleyCoops/volume2gym/blob/rebrand/source2agent/docs/prime-agent-runbook.md"
 Dataset = "https://huggingface.co/datasets/HarleyCooper/volume2gym-railroad-1959"
 Model = "https://huggingface.co/HarleyCooper/Qwen3-4B-RailRoadEngineer1959"
 
