@@ -9,6 +9,7 @@
 [Operational runbook](docs/prime-agent-runbook.md) ·
 [Architecture](docs/architecture/source-to-agent.md) ·
 [Deployment](deploy/README.md) ·
+[Entire tracing integration](docs/integrations/entire.md) ·
 [Lantern & Ledger fixture](examples/lantern_ledger/)
 
 `offline-first` · `source-grounded` · `deterministic artifacts` · `Prime Agent ready`
@@ -29,6 +30,7 @@ Source2Agent is the product rebrand of this repository. The implementation curre
 - SFT and GRPO-ready records, symbolic reference evaluation, and SHA-256 manifests are produced locally.
 - `deploy/server.py` exposes `/health`, `/compile`, and `/reference-eval`; Docker packaging is included.
 - `scripts/prime-agent-gate.sh` is an offline completion gate for Prime Agent autonomous runs.
+- Entire's Pi integration records the coding-agent session and checkpoint path alongside the reviewed commit; it does not replace the quality gate or model evidence.
 - The Lantern & Ledger fixture is the rights-safe smoke test.
 
 The local fixture is a contract proof, not a neural training result. Full-book railroad training, model-level generalization, Prime Lab hosted evaluation, and neural inference deployment remain explicit milestones rather than implied claims.
@@ -96,6 +98,7 @@ Do not claim that a model learned an entire source, generalized to a new volume,
 | `deploy/` | Dependency-light operational API |
 | `docs/architecture/` | Product and evidence contract |
 | `docs/prime-agent-runbook.md` | Prime Agent and Prime Lab workflow |
+| `docs/integrations/entire.md` | Entire coding-agent tracing and privacy contract |
 | `scripts/prime-agent-gate.sh` | Offline autonomous completion gate |
 | `legacy/railroad_1959/` | Historical railroad lineage and provenance |
 
