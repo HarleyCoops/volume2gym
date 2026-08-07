@@ -14,9 +14,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 
-from volume2gym.pipeline import compile_build, inspect_build, validate_build
+from volume2gym.pipeline import compile_build, inspect_build, load_build, validate_build
 from volume2gym.trainers import SymbolicTrainer, evaluate_policy
-from volume2gym.pipeline import load_build
 
 
 def _jsonable(value: Any) -> Any:
@@ -134,7 +133,7 @@ class Handler(BaseHTTPRequestHandler):
                 else _reference_eval(payload)
             )
             self._send(200, result)
-        except (OSError, TypeError, ValueError, json.JSONDecodeError) as exc:
+        except (OSError, TypeError, ValueError) as exc:
             self._send(400, {"error": str(exc)})
 
     def log_message(self, format: str, *args: object) -> None:
