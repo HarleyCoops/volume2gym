@@ -28,10 +28,12 @@ Source2Agent is the product rebrand of this repository. The implementation curre
 - Grouped train/dev/test holdouts prevent connected semantic units from leaking across splits.
 - Deterministic verifiers emit inspectable reward ledgers and failure clusters.
 - SFT and GRPO-ready records, symbolic reference evaluation, and SHA-256 manifests are produced locally.
-- `deploy/server.py` exposes `/health`, `/compile`, and `/reference-eval`; Docker packaging is included.
+- `deploy/server.py` exposes bounded compiler and symbolic-reference endpoints; Docker and Railway configuration are included.
 - `scripts/prime-agent-gate.sh` is an offline completion gate for Prime Agent autonomous runs.
 - Entire's Pi integration records the coding-agent session and checkpoint path alongside the reviewed commit; it does not replace the quality gate or model evidence.
 - The Lantern & Ledger fixture is the rights-safe smoke test.
+- `railroad-1959-v1` is a real local `verifiers.v1` taskset pinned to
+  `verifiers==0.3.0`, with exact structural holdouts and model-free trace artifacts.
 
 The local fixture is a contract proof, not a neural training result. Full-book railroad training, model-level generalization, Prime Lab hosted evaluation, and neural inference deployment remain explicit milestones rather than implied claims.
 
@@ -50,8 +52,9 @@ flowchart TD
 ## Run the local vertical slice
 
 ```bash
-python -m pip install -e ".[dev]"
-bash scripts/prime-agent-gate.sh
+uv sync --locked --project environments/railroad_1959_v1 --group dev
+PYTHON_BIN=environments/railroad_1959_v1/.venv/bin/python \
+  bash scripts/prime-agent-gate.sh
 ```
 
 The gate compiles, validates, inspects, and symbolically evaluates the Lantern fixture. It never downloads a model, spends hosted credits, or requires an API key.
@@ -77,7 +80,10 @@ docker run --rm -p 8000:8000 source2agent:local
 curl http://127.0.0.1:8000/health
 ```
 
-See [deploy/README.md](deploy/README.md) for the compile and symbolic-reference requests and the evidence required before calling a hosted endpoint deployed.
+The container defaults to pinned named-volume endpoints; arbitrary custom-input
+compilation is an explicit local opt-in. See [deploy/README.md](deploy/README.md)
+for the live smoke command, Railway deployment contract, and evidence required
+before calling an endpoint deployed.
 
 ## Product boundary
 
@@ -95,6 +101,8 @@ Do not claim that a model learned an entire source, generalized to a new volume,
 |---|---|
 | `src/volume2gym/` | Compatible compiler and learning-environment engine |
 | `examples/lantern_ledger/` | Rights-safe local fixture |
+| `environments/railroad_1959_v1/` | Exact local Prime Lab / verifiers.v1 taskset |
+| `evidence/prime/railroad-1959-v1/` | Symbolic v1 traces, ledgers, and evidence summary |
 | `deploy/` | Dependency-light operational API |
 | `docs/architecture/` | Product and evidence contract |
 | `docs/prime-agent-runbook.md` | Prime Agent and Prime Lab workflow |

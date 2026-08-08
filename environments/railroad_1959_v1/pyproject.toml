@@ -1,0 +1,25 @@
+[project]
+name = "railroad-1959-v1"
+version = "0.1.0"
+description = "Source-grounded railroad proof taskset for verifiers.v1."
+requires-python = ">=3.11,<3.14"
+dependencies = ["verifiers==0.3.0"]
+
+[dependency-groups]
+dev = [
+  "build>=1.2",
+  "hatchling>=1.27",
+  "pytest>=8.3",
+  "ruff>=0.9",
+  "volume2gym",
+]
+
+[tool.uv.sources]
+volume2gym = { path = "../..", editable = true }
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["railroad_1959_v1"]

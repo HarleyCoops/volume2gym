@@ -1,0 +1,15 @@
+{
+  "mode": "gold",
+  "outcomes": {
+    "error": 0,
+    "invalid": 0,
+    "missing": 0,
+    "timeout": 0,
+    "valid": 2742
+  },
+  "owed": 0,
+  "recorded": 2742,
+  "terminal": 2742,
+  "total": 2742,
+  "valid_rate": 1.0
+}

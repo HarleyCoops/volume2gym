@@ -45,9 +45,9 @@ The project is ready for a first public release when all of these are true:
 ## Canonical commands
 
 ```bash
-python -m pip install -e ".[dev]"
-python -m pytest
-python -m ruff check .
+uv sync --locked --project environments/railroad_1959_v1 --group dev
+environments/railroad_1959_v1/.venv/bin/python -m pytest
+environments/railroad_1959_v1/.venv/bin/python -m ruff check .
 
 python -m volume2gym compile \
   --volume-id lantern-ledger-demo \

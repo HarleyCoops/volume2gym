@@ -11,6 +11,8 @@ import json
 import os
 import re
 import tempfile
+import threading
+from collections.abc import Callable
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
@@ -22,6 +24,65 @@ from volume2gym.trainers import SymbolicTrainer, evaluate_policy
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_VOLUME_ROOT = REPOSITORY_ROOT / "volumes"
+DEFAULT_MAX_REQUEST_BYTES = 256 * 1024
+DEFAULT_MAX_CUSTOM_UNITS = 100
+_COMPUTE_SLOT = threading.BoundedSemaphore(value=1)
+_NAMED_RESULT_CACHE: dict[tuple[str, str], dict[str, Any]] = {}
+_CACHE_LOCK = threading.Lock()
+
+
+class ServiceBusyError(RuntimeError):
+    """Raised when the bounded public compute slot is already occupied."""
+
+
+def _positive_int_env(name: str, default: int) -> int:
+    value = int(os.environ.get(name, str(default)))
+    if value < 1:
+        raise ValueError(f"{name} must be a positive integer")
+    return value
+
+
+def _custom_inputs_enabled() -> bool:
+    return os.environ.get("SOURCE2AGENT_ALLOW_CUSTOM_INPUT", "1").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+    }
+
+
+def _validate_custom_units(payload: dict[str, Any]) -> list[Any]:
+    units = payload.get("units")
+    if not isinstance(units, list) or not units:
+        raise ValueError("payload.units must be a non-empty list")
+    maximum = _positive_int_env("SOURCE2AGENT_MAX_CUSTOM_UNITS", DEFAULT_MAX_CUSTOM_UNITS)
+    if len(units) > maximum:
+        raise ValueError(f"payload.units exceeds the configured limit of {maximum}")
+    return units
+
+
+def _run_bounded(operation: Callable[[], dict[str, Any]]) -> dict[str, Any]:
+    if not _COMPUTE_SLOT.acquire(blocking=False):
+        raise ServiceBusyError("another compile or reference evaluation is in progress")
+    try:
+        return operation()
+    finally:
+        _COMPUTE_SLOT.release()
+
+
+def _cached_named_result(
+    volume_id: str,
+    operation: str,
+    compute: Callable[[], dict[str, Any]],
+) -> dict[str, Any]:
+    key = (volume_id, operation)
+    with _CACHE_LOCK:
+        cached = _NAMED_RESULT_CACHE.get(key)
+    if cached is not None:
+        return cached
+    result = _run_bounded(compute)
+    with _CACHE_LOCK:
+        _NAMED_RESULT_CACHE[key] = result
+    return result
 
 
 def _jsonable(value: Any) -> Any:
@@ -38,9 +99,7 @@ def _jsonable(value: Any) -> Any:
 
 def _compile(payload: dict[str, Any]) -> dict[str, Any]:
     volume_id = str(payload.get("volume_id", "source2agent-request"))
-    units = payload.get("units")
-    if not isinstance(units, list) or not units:
-        raise ValueError("payload.units must be a non-empty list")
+    units = _validate_custom_units(payload)
 
     with tempfile.TemporaryDirectory(prefix="source2agent-") as work:
         root = Path(work)
@@ -70,9 +129,7 @@ def _compile(payload: dict[str, Any]) -> dict[str, Any]:
 
 def _reference_eval(payload: dict[str, Any]) -> dict[str, Any]:
     volume_id = str(payload.get("volume_id", "source2agent-request"))
-    units = payload.get("units")
-    if not isinstance(units, list) or not units:
-        raise ValueError("payload.units must be a non-empty list")
+    units = _validate_custom_units(payload)
 
     with tempfile.TemporaryDirectory(prefix="source2agent-eval-") as work:
         root = Path(work)
@@ -236,7 +293,18 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
         if path == "/health":
-            self._send(200, {"status": "healthy", "product": "Source2Agent"})
+            self._send(
+                200,
+                {
+                    "status": "healthy",
+                    "product": "Source2Agent",
+                    "service_mode": (
+                        "custom-and-named" if _custom_inputs_enabled() else "named-volume-only"
+                    ),
+                    "revision": os.environ.get("RAILWAY_GIT_COMMIT_SHA", "local"),
+                    "neural_model": False,
+                },
+            )
             return
         if path == "/volumes":
             volumes = _available_volumes()
@@ -266,20 +334,47 @@ class Handler(BaseHTTPRequestHandler):
             self._send(404, {"error": "not found"})
             return
         try:
+            if path in {"/compile", "/reference-eval"} and not _custom_inputs_enabled():
+                self._send(
+                    403,
+                    {
+                        "error": "custom input endpoints are disabled on this deployment",
+                        "named_volume_endpoints_available": True,
+                    },
+                )
+                return
             length = int(self.headers.get("Content-Length", "0"))
+            maximum = _positive_int_env(
+                "SOURCE2AGENT_MAX_REQUEST_BYTES", DEFAULT_MAX_REQUEST_BYTES
+            )
+            if length < 0:
+                raise ValueError("Content-Length must not be negative")
+            if length > maximum:
+                self._send(413, {"error": f"request body exceeds {maximum} bytes"})
+                return
             payload = json.loads(self.rfile.read(length)) if length else {}
             if not isinstance(payload, dict):
                 raise ValueError("request body must be a JSON object")
             if named_match:
                 volume_id, operation = named_match.groups()
-                result = (
-                    _compile_named_volume(volume_id)
-                    if operation == "compile"
-                    else _reference_eval_named_volume(volume_id)
+                result = _cached_named_result(
+                    volume_id,
+                    operation,
+                    lambda: (
+                        _compile_named_volume(volume_id)
+                        if operation == "compile"
+                        else _reference_eval_named_volume(volume_id)
+                    ),
                 )
             else:
-                result = _compile(payload) if path == "/compile" else _reference_eval(payload)
+                result = _run_bounded(
+                    lambda: (
+                        _compile(payload) if path == "/compile" else _reference_eval(payload)
+                    )
+                )
             self._send(200, result)
+        except ServiceBusyError as exc:
+            self._send(503, {"error": str(exc), "retryable": True})
         except (FileNotFoundError, OSError, TypeError, ValueError) as exc:
             self._send(400, {"error": str(exc)})
 

@@ -48,11 +48,53 @@
     "neural_model": false,
     "evaluation_sha256": "0c3316cae48d0f85adde6041bc86b2db982586dcae374f7e858ed68c3e79f535"
   },
+  "prime_lab": {
+    "environment_id": "railroad-1959-v1",
+    "environment_hub_id": null,
+    "environment_version": "0.1.0",
+    "verifiers_version": "0.3.0",
+    "verifiers_release_commit": "0a4d872f021022310a08ec213a25f4efb4a0244a",
+    "taskset_manifest_sha256": "e105267de68a80a98c2c597d6ec25eef16214c92cffa53b19a1fc6892615d32e",
+    "taskset_jsonl_sha256": "4013a7ba46365657103071c146bde0359fea548e7a317bcaddc114a3c12c6ccf",
+    "taskset_gzip_sha256": "3abf2a562dbbc84bff2018648a1e4c22421bb09a1a13ee4b258fd32dac1eb3ef",
+    "task_count": 2742,
+    "split_counts": {
+      "train": 2190,
+      "dev": 276,
+      "test": 276
+    },
+    "holdout_group": "knowledge_unit",
+    "holdout_leakage_valid": true,
+    "harness": "null",
+    "runtime": "subprocess",
+    "runtime_network_isolation": false,
+    "reward_verifier_id": "volume2gym.deterministic-composite",
+    "reward_verifier_version": "1",
+    "gold_validation_task_count": 2742,
+    "gold_validation_valid_rate": 1.0,
+    "gold_validation_summary_path": "evidence/prime/railroad-1959-v1/gold-validation-summary.json",
+    "gold_validation_summary_sha256": "b2f25f900653d28d75a0d4fe09a516374ac75e730921422682377032aa78834d",
+    "reference_eval_split": "test",
+    "reference_eval_task_count": 276,
+    "reference_eval_mean_total_reward": 1.0,
+    "reference_eval_summary_sha256": "5f5bf2ba4c6b9d986da698acd0cc0d0f0a990ff03bc70309b54c3353a14c68dc",
+    "reference_eval_traces_gzip_sha256": "0f0b3447f111ab0ccd405d5358c77e086dab5f87314802780ea20154d3ba5331",
+    "reference_eval_ledgers_gzip_sha256": "81d2252fc4f2f81bc478f27cc445667a1c9b8bb7a487237e9a229bf06ef24160",
+    "neural_model": false,
+    "hosted_credits_spent": false,
+    "checkpoint_published": false,
+    "entire_session_recorded": false
+  },
   "deployment": {
     "descriptor_endpoint": "/volumes/railroad-1959-v0",
     "compile_endpoint": "/volumes/railroad-1959-v0/compile",
     "reference_eval_endpoint": "/volumes/railroad-1959-v0/reference-eval",
     "container_image": "ghcr.io/harleycoops/volume2gym",
+    "hosting_provider": "railway",
+    "hosting_config": "railway.json",
+    "hosted_base_url": null,
+    "hosted_evidence_path": null,
+    "hosted_custom_input_enabled": false,
     "model_mode": "symbolic-reference",
     "neural_inference": false
   },
@@ -60,6 +102,7 @@
     "OCR-derived text has not received line-by-line human review.",
     "Source and derived-text redistribution rights have not been established.",
     "The perfect symbolic reference score verifies contract consistency, not neural learning or generalization.",
+    "Prime holdout prompts include the source excerpt and test in-context source following, not memorized or cross-volume knowledge generalization.",
     "This historical volume is not current railroad operating instruction."
   ]
 }

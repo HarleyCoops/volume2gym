@@ -40,6 +40,7 @@ gym = ["gymnasium>=1.0"]
 huggingface = ["datasets>=3.0", "huggingface-hub>=0.27"]
 dev = [
   "build>=1.2",
+  "hatchling>=1.27",
   "pytest>=8.3",
   "pytest-cov>=6.0",
   "ruff>=0.9",
@@ -64,7 +65,7 @@ packages = ["src/volume2gym"]
 
 [tool.pytest.ini_options]
 addopts = "-q"
-pythonpath = ["."]
+pythonpath = [".", "environments/railroad_1959_v1"]
 testpaths = ["tests"]
 
 [tool.ruff]

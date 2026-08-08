@@ -54,6 +54,58 @@ reference scored 1.0 on all 276 test tasks. This demonstrates internal compiler,
 verifier, and deployment-contract consistency. It is explicitly not a neural
 evaluation.
 
+## Prime Lab / verifiers.v1 vertical slice
+
+The local environment package at
+`environments/railroad_1959_v1` targets the released `verifiers==0.3.0` API
+(release source commit `0a4d872f021022310a08ec213a25f4efb4a0244a`). Its exact
+taskset is a deterministic gzip artifact generated from the build above:
+
+- local environment ID: `railroad-1959-v1`;
+- Environment Hub ID: none assigned or claimed;
+- taskset: 2,742 tasks, SHA-256
+  `4013a7ba46365657103071c146bde0359fea548e7a317bcaddc114a3c12c6ccf`
+  after decompression;
+- holdout unit: complete knowledge unit;
+- group counts: 365 train, 46 development, 46 test;
+- pairwise group intersections: zero;
+- harness: built-in `null`, one model turn;
+- local runtime: subprocess, with no network-isolation claim;
+- reward: `volume2gym.deterministic-composite` version 1 with its five component
+  weights and safety hard gate.
+
+The released Verifiers gold validator accepted all 2,742 tasks with zero errors,
+invalid rows, missing rows, or timeouts. The committed model-free evaluation has
+276 v1 traces and 276 full reward ledgers. Its symbolic answer-key policy scores
+1.0, and `neural_model` is explicitly false.
+
+Those symbolic traces were constructed and scored locally; they did not execute
+a model-facing harness or rollout runtime. The subprocess runtime is an exact
+configuration contract validated by dry-run, not evidence of model inference.
+
+This slice also records a material reward limitation: all 2,742 OCR-derived
+tasks have empty `required_actions`, `forbidden_actions`, `procedure_order`, and
+`terms` answer-key fields. Under verifier v1, only applicable-rule citation
+varies. Reference-answer fidelity is retained as an unscored metric. The perfect
+symbolic result therefore proves API, taskset, trace, and reward-contract
+consistency; it does not prove a strong reasoning rubric, inference quality, or
+learning. Each held-out prompt contains its source excerpt, so the structural
+holdout tests in-context source following rather than memorized or cross-volume
+knowledge generalization.
+
+Reproduce it locally without model inference or hosted credits:
+
+```bash
+python scripts/build_prime_railroad_v1.py --check
+python scripts/evaluate_prime_railroad_v1.py --check
+validate @ configs/prime/railroad-1959-v1.validate.toml --only-gold True
+```
+
+No hosted evaluation was run, no checkpoint was published, and no Entire trace
+was claimed. Entire remains configured conceptually as the Pi coding-agent trace
+layer; this execution environment did not have the Entire CLI, and public
+checkpoint privacy has not been approved.
+
 ## Operational API
 
 Run `python deploy/server.py`, then call:
@@ -65,8 +117,10 @@ curl -X POST http://127.0.0.1:8000/volumes/railroad-1959-v0/reference-eval
 ```
 
 The container is published to `ghcr.io/harleycoops/volume2gym` by the deployment
-workflow. A public always-on HTTP endpoint remains hosting-provider work and must
-not be implied by the container publication.
+workflow. `railway.json` now records the intended always-running Docker service,
+readiness, and restart contract. A public URL is evidence only after
+`scripts/smoke_hosted_deployment.py` records the deployed revision and all four
+live responses; the container publication alone still does not prove hosting.
 
 ## Evidence boundary
 

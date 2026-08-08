@@ -1,0 +1,72 @@
+{
+  "answer_key_nonempty_counts": {
+    "forbidden_actions": 0,
+    "procedure_order": 0,
+    "required_actions": 0,
+    "terms": 0
+  },
+  "environment_hub_id": null,
+  "environment_id": "railroad-1959-v1",
+  "environment_version": "0.1.0",
+  "holdout_contract": {
+    "cross_split_intersections": {
+      "dev_test": [],
+      "train_dev": [],
+      "train_test": []
+    },
+    "group_by": "knowledge_unit",
+    "group_counts": {
+      "dev": 46,
+      "test": 46,
+      "train": 365
+    },
+    "leakage_valid": true
+  },
+  "neural_model": false,
+  "reward_contract": {
+    "reference_answer_fidelity": "unscored_metric",
+    "safety_hard_gate": true,
+    "safety_threshold": 1.0,
+    "situation_type": "schema_only_unscored",
+    "verifier_id": "volume2gym.deterministic-composite",
+    "verifier_version": "1",
+    "weights": {
+      "correct_applicable_rule_cited": 0.15,
+      "domain_terminology_correct": 0.1,
+      "forbidden_unsafe_actions_absent": 0.2,
+      "procedure_order_correct": 0.15,
+      "safety_critical_required_actions": 0.4
+    }
+  },
+  "runtime_contract": {
+    "harness": "null",
+    "hosted": false,
+    "max_turns": 1,
+    "network_policy": "unenforced-by-subprocess-runtime",
+    "runtime": "subprocess"
+  },
+  "schema_version": "0.1",
+  "source2agent_build_id": "railroad-1959-v0-f5ff30c07de405de",
+  "source_revision": "cd7cfd8bab3d9d9c33446c971f5df8276e5a29f4",
+  "source_rules_sha256": "c9728ab66d21a59f1d24fa3bc771787e3b7141f1b758cc22c3199caa0439bf27",
+  "source_sha256": "c96a60c2b20e7b34d9bd689d57b2ec5b8c71362545b889c479bdf04fe6444350",
+  "source_task_artifact_sha256": "ef604f007b986b802d0aa423f204eacc7968da139e37785aa13136ffdc5a820b",
+  "split_counts": {
+    "dev": 276,
+    "test": 276,
+    "train": 2190
+  },
+  "task_count": 2742,
+  "task_family_counts": {
+    "adversarial_distractor": 457,
+    "conflict_resolution": 457,
+    "edge_case": 457,
+    "exception_handling": 457,
+    "standard_operation": 457,
+    "violation_check": 457
+  },
+  "taskset_gzip_sha256": "3abf2a562dbbc84bff2018648a1e4c22421bb09a1a13ee4b258fd32dac1eb3ef",
+  "taskset_jsonl_sha256": "4013a7ba46365657103071c146bde0359fea548e7a317bcaddc114a3c12c6ccf",
+  "verifiers_release_commit": "0a4d872f021022310a08ec213a25f4efb4a0244a",
+  "verifiers_version": "0.3.0"
+}

@@ -29,10 +29,29 @@ def test_core_top_level_exports_are_the_canonical_objects() -> None:
 
 
 def test_importing_public_api_does_not_require_optional_frameworks() -> None:
-    # Importing the core must not load SDKs that belong to optional extras.
+    # Check in a clean interpreter so unrelated test modules cannot pollute the
+    # process-wide import cache before this assertion runs.
+    import json
+    import subprocess
     import sys
 
-    assert "anthropic" not in sys.modules
-    assert "datasets" not in sys.modules
-    assert "fitz" not in sys.modules
-    assert "gymnasium" not in sys.modules
+    program = """
+import json
+import sys
+import volume2gym
+
+names = ("anthropic", "datasets", "fitz", "gymnasium")
+print(json.dumps({name: name in sys.modules for name in names}, sort_keys=True))
+"""
+    completed = subprocess.run(
+        [sys.executable, "-c", program],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert json.loads(completed.stdout) == {
+        "anthropic": False,
+        "datasets": False,
+        "fitz": False,
+        "gymnasium": False,
+    }
