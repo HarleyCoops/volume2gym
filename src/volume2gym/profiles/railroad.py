@@ -70,7 +70,11 @@ class RailroadProfile:
                 quote=text,
                 confidence=confidence,
             )
+            source_metadata = record.get("metadata")
+            if source_metadata is not None and not isinstance(source_metadata, Mapping):
+                raise ValueError(f"metadata for {legacy_id!r} must be an object")
             metadata: dict[str, Any] = {
+                **dict(source_metadata or {}),
                 "legacy_rule_id": legacy_id,
                 "source_format": "railroad_rule_json",
             }

@@ -264,6 +264,13 @@ not publish the merged full-book corpus or a reproducible end-to-end neural run.
 The original code is retained under [`legacy/railroad_1959/`](legacy/railroad_1959/)
 for provenance; it is not the supported API.
 
+The new [`railroad-1959-v0`](volumes/railroad-1959-v0/) proof is independently
+reproduced from the pinned 117-page scan: **457 OCR-derived knowledge units** and
+**2,742 deterministic tasks**, split 2,190/276/276 by knowledge unit. Its build,
+trainer exports, and 276-task symbolic reference evaluation are hash-recorded in
+the [proof report](docs/proofs/railroad-1959-v0.md). OCR remains unreviewed and
+source/derived-text redistribution rights remain unresolved.
+
 ### Why Rule 99 appears on Hugging Face
 
 The [Rule 99 dataset](https://huggingface.co/datasets/HarleyCooper/volume2gym-railroad-1959)
@@ -279,8 +286,8 @@ is also not a neural checkpoint.
 
 | Scope | Role | What is public now |
 |---|---|---|
-| **Source2Agent** | General compiler and learning contract | Executable package, tests, CLI, non-railroad example, legacy adapter |
-| **Railroad Engineer 1959** | First reported full-volume implementation lineage | Extraction/environment code and pipeline notes; merged reported corpus absent |
+| **Source2Agent** | General compiler and learning contract | Executable package, tests, CLI, deployment API, non-railroad example, full-volume v0 proof |
+| **Railroad Engineer 1959** | First reported full-volume implementation lineage | Historical code plus independently reproduced 457-unit/2,742-task OCR v0 |
 | **Rule 99 fixture** | One-rule regression and artifact-contract test | Six train rows, one held-out row, ledgers, curriculum artifacts, symbolic adapter |
 | **Qwen3-4B railroad LoRA** | Neural artifact in the broader railroad lineage | Adapter weights and card; exact full training recipe is incomplete |
 
@@ -309,8 +316,9 @@ There are no private repository links in the public project story.
 | Each unit becomes six task families with source citations | **Implemented and inspectable** in `tasks/all.jsonl` |
 | Semantic groups remain isolated across train/dev/test | **Implemented and validated** by the build validator |
 | Builds are deterministic and tamper-evident | **Implemented** with canonical serialization, hashes, and manifests |
-| The legacy importer handles the whole railroad rule list | **Implemented without a Rule 99 branch**; the full extracted corpus is not present here |
+| The generic importer compiles the reproduced railroad volume | **Demonstrated locally** with 457 units, 2,742 tasks, deterministic hashes, and named deployment endpoints |
 | The railroad pipeline produced 536 rules and 2,708 scenarios | **Reported upstream**, not independently reconstructable from the public merged data |
+| `railroad-1959-v0` reproduces 457 units and 2,742 tasks | **Demonstrated locally** from the pinned scan; OCR is unreviewed and rights remain unresolved |
 | The public Qwen3-4B LoRA came from this exact reproducible compiler build | **Not established** by a complete public corpus, split, launcher, seed, and run trace |
 | Within-book and cross-book neural generalization | **Research targets**, not current results |
 
@@ -342,6 +350,7 @@ volume2gym/
 │   ├── profiles/railroad.py   # recursive legacy railroad importer
 │   └── integrations/          # external artifact adapters
 ├── examples/lantern_ledger/   # original, rights-safe non-railroad proof
+├── volumes/railroad-1959-v0/  # reproduced OCR corpus, descriptor, and rights notice
 ├── legacy/railroad_1959/      # preserved predecessor; unsupported API
 ├── artifacts/huggingface/     # pinned small HF card/data snapshots
 ├── cards/huggingface/         # coordinated live Hub card sources
@@ -384,12 +393,14 @@ The CI path is offline. Optional capabilities are installed independently:
 
 ## Rights, provenance, and safety
 
-The code in this repository is Apache-2.0. That code license does **not**
-silently grant rights to a source book, scan, or derived full-text corpus. The
-fictional Lantern & Ledger example is original to this repository. The 1959
-railroad scan and full derived corpus are not copied into this repository;
-their provenance and redistribution basis must be resolved before repackaging.
-Pinned Hugging Face snapshots retain their upstream scope and metadata.
+The Source2Agent code in this repository is Apache-2.0. That code license does
+**not** silently grant rights to a source book, scan, or derived full-text
+corpus. The fictional Lantern & Ledger example is original to this repository.
+The original 1959 scan is not copied here. The OCR-derived
+`railroad-1959-v0` corpus is segregated with its own [rights notice](volumes/railroad-1959-v0/RIGHTS.md):
+source and derived-text rights are unknown, redistribution is not cleared, and
+the corpus must not be repackaged until a rights basis is established. Pinned
+Hugging Face snapshots retain their upstream scope and metadata.
 
 Source2Agent preserves citations so rights and provenance can remain attached to
 derived tasks. A real release should also record the source hash, compiler
