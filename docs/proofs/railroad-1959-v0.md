@@ -117,8 +117,10 @@ curl -X POST http://127.0.0.1:8000/volumes/railroad-1959-v0/reference-eval
 ```
 
 The container is published to `ghcr.io/harleycoops/volume2gym` by the deployment
-workflow. A public always-on HTTP endpoint remains hosting-provider work and must
-not be implied by the container publication.
+workflow. `railway.json` now records the intended always-running Docker service,
+readiness, and restart contract. A public URL is evidence only after
+`scripts/smoke_hosted_deployment.py` records the deployed revision and all four
+live responses; the container publication alone still does not prove hosting.
 
 ## Evidence boundary
 

@@ -28,7 +28,7 @@ Source2Agent is the product rebrand of this repository. The implementation curre
 - Grouped train/dev/test holdouts prevent connected semantic units from leaking across splits.
 - Deterministic verifiers emit inspectable reward ledgers and failure clusters.
 - SFT and GRPO-ready records, symbolic reference evaluation, and SHA-256 manifests are produced locally.
-- `deploy/server.py` exposes `/health`, `/compile`, and `/reference-eval`; Docker packaging is included.
+- `deploy/server.py` exposes bounded compiler and symbolic-reference endpoints; Docker and Railway configuration are included.
 - `scripts/prime-agent-gate.sh` is an offline completion gate for Prime Agent autonomous runs.
 - Entire's Pi integration records the coding-agent session and checkpoint path alongside the reviewed commit; it does not replace the quality gate or model evidence.
 - The Lantern & Ledger fixture is the rights-safe smoke test.
@@ -80,7 +80,10 @@ docker run --rm -p 8000:8000 source2agent:local
 curl http://127.0.0.1:8000/health
 ```
 
-See [deploy/README.md](deploy/README.md) for the compile and symbolic-reference requests and the evidence required before calling a hosted endpoint deployed.
+The container defaults to pinned named-volume endpoints; arbitrary custom-input
+compilation is an explicit local opt-in. See [deploy/README.md](deploy/README.md)
+for the live smoke command, Railway deployment contract, and evidence required
+before calling an endpoint deployed.
 
 ## Product boundary
 

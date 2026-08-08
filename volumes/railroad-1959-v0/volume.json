@@ -90,6 +90,11 @@
     "compile_endpoint": "/volumes/railroad-1959-v0/compile",
     "reference_eval_endpoint": "/volumes/railroad-1959-v0/reference-eval",
     "container_image": "ghcr.io/harleycoops/volume2gym",
+    "hosting_provider": "railway",
+    "hosting_config": "railway.json",
+    "hosted_base_url": null,
+    "hosted_evidence_path": null,
+    "hosted_custom_input_enabled": false,
     "model_mode": "symbolic-reference",
     "neural_inference": false
   },
