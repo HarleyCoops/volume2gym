@@ -1,0 +1,159 @@
+{
+  "volume_id": "railroad-1959-v0",
+  "document_id": "railroad-1959",
+  "extracted_rule_count": 457,
+  "compiled_task_count_expected": 2742,
+  "task_families_per_rule": 6,
+  "section_counts": {
+    "Accidents and Injuries": 9,
+    "Additional General Rules": 26,
+    "Automatic Block Signal System": 22,
+    "Centralized Traffic Control": 5,
+    "Dual Control Switches": 5,
+    "Electric Locked Switches": 6,
+    "Engine Service and Station Agents": 28,
+    "Fire and Explosives": 5,
+    "Freight Service": 19,
+    "General Signal Rules": 7,
+    "Interlocking Rules": 26,
+    "Legal Proceedings and Accidents": 5,
+    "Manual Block System": 60,
+    "Movement by Train Orders": 23,
+    "Passenger Service": 23,
+    "Railroad Radio Rules": 14,
+    "Signal Systems": 12,
+    "Signals": 47,
+    "Standard Time and Timetables": 15,
+    "Superiority and Movement of Trains": 56,
+    "Train Dispatchers": 4,
+    "Train Order Signals": 7,
+    "Train and Yard Service": 33
+  },
+  "duplicate_original_rule_ids": {
+    "221": 2,
+    "93": 2,
+    "99": 2
+  },
+  "punctuation_corrections": [
+    {
+      "page_number": 8,
+      "rule_id": "4",
+      "from": ",",
+      "to": "."
+    },
+    {
+      "page_number": 12,
+      "rule_id": "14",
+      "from": ",",
+      "to": "."
+    },
+    {
+      "page_number": 17,
+      "rule_id": "S-20",
+      "from": ",",
+      "to": "."
+    },
+    {
+      "page_number": 19,
+      "rule_id": "34",
+      "from": ",",
+      "to": "."
+    },
+    {
+      "page_number": 25,
+      "rule_id": "99",
+      "from": ",",
+      "to": "."
+    },
+    {
+      "page_number": 39,
+      "rule_id": "223",
+      "from": ",",
+      "to": "."
+    },
+    {
+      "page_number": 40,
+      "rule_id": "224",
+      "from": ",",
+      "to": "."
+    },
+    {
+      "page_number": 81,
+      "rule_id": "314",
+      "from": ",",
+      "to": "."
+    },
+    {
+      "page_number": 83,
+      "rule_id": "334",
+      "from": ",",
+      "to": "."
+    },
+    {
+      "page_number": 85,
+      "rule_id": "364",
+      "from": ",",
+      "to": "."
+    },
+    {
+      "page_number": 85,
+      "rule_id": "371",
+      "from": ",",
+      "to": "."
+    },
+    {
+      "page_number": 90,
+      "rule_id": "514",
+      "from": ",",
+      "to": "."
+    },
+    {
+      "page_number": 91,
+      "rule_id": "612",
+      "from": ",",
+      "to": "."
+    },
+    {
+      "page_number": 93,
+      "rule_id": "637",
+      "from": ",",
+      "to": "."
+    },
+    {
+      "page_number": 110,
+      "rule_id": "924",
+      "from": ",",
+      "to": "."
+    }
+  ],
+  "excluded_rule_like_candidates": [
+    {
+      "page_number": 12,
+      "rule_id": "99",
+      "line": "99."
+    },
+    {
+      "page_number": 48,
+      "rule_id": "99",
+      "line": "99."
+    },
+    {
+      "page_number": 62,
+      "rule_id": "221",
+      "line": "221."
+    },
+    {
+      "page_number": 81,
+      "rule_id": "5",
+      "line": "5.—Block not clear of train other than"
+    }
+  ],
+  "source_revision": "cd7cfd8bab3d9d9c33446c971f5df8276e5a29f4",
+  "source_sha256": "c96a60c2b20e7b34d9bd689d57b2ec5b8c71362545b889c479bdf04fe6444350",
+  "ocr_text_sha256": "e841c46166c5ad8115fd824b02f1eaa7032ac3bc3022cc1fbfe18c05349a9aee",
+  "source_page_count": 117,
+  "ocr_pipeline": "ocrmypdf --force-ocr --rotate-pages --deskew --optimize 1; pdftotext -raw",
+  "ocr_review_status": "unreviewed",
+  "rights_status": "unknown",
+  "redistribution_cleared": false
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "0.1",
+  "volume_id": "railroad-1959-v0",
+  "status": "operational-ocr-v0",
+  "document": {
+    "document_id": "railroad-1959",
+    "title": "Joint Form 1 Consolidated Code of Operating Rules—Revised 1959",
+    "source_repository": "https://github.com/HarleyCoops/Qwen3-RailroadEngineer1959-RL",
+    "source_path": "Public/1959RailRoadCodeRL.pdf",
+    "source_revision": "cd7cfd8bab3d9d9c33446c971f5df8276e5a29f4",
+    "source_sha256": "c96a60c2b20e7b34d9bd689d57b2ec5b8c71362545b889c479bdf04fe6444350",
+    "page_count": 117,
+    "rights_status": "unknown",
+    "redistribution_cleared": false
+  },
+  "corpus": {
+    "rules_path": "rules.json",
+    "rules_sha256": "c9728ab66d21a59f1d24fa3bc771787e3b7141f1b758cc22c3199caa0439bf27",
+    "extraction_report_path": "extraction-report.json",
+    "extraction_report_sha256": "a2895508e45bbcd82ddf2bc585309587c53e2006222eb47942f2d0305eab8b2c",
+    "knowledge_unit_count": 457,
+    "ocr_review_status": "unreviewed"
+  },
+  "build": {
+    "build_id": "railroad-1959-v0-f5ff30c07de405de",
+    "compiler_version": "volume2gym.template.v1",
+    "seed": 1959,
+    "group_by": "knowledge_unit",
+    "task_count": 2742,
+    "task_family_count": 6,
+    "split_counts": {
+      "train": 2190,
+      "dev": 276,
+      "test": 276
+    },
+    "manifest_sha256": "435f6b75df45b68ad0d06f77d1033da963202a7ee83ac4a7f818250ac87db77b",
+    "task_artifact_sha256": "ef604f007b986b802d0aa423f204eacc7968da139e37785aa13136ffdc5a820b",
+    "train_sft_sha256": "e27a8cf1de55bae7500e9264269125a5c1cbc089aac2a014aa535dc70dbde259",
+    "train_grpo_sha256": "599b2b49600172a9e329bbb88948983aebf834751879e631d22d05b8109e55f0"
+  },
+  "verification": {
+    "build_valid": true,
+    "split_leakage_valid": true,
+    "reference_type": "symbolic-answer-key",
+    "reference_eval_split": "test",
+    "reference_eval_task_count": 276,
+    "reference_eval_mean_total_score": 1.0,
+    "neural_model": false,
+    "evaluation_sha256": "0c3316cae48d0f85adde6041bc86b2db982586dcae374f7e858ed68c3e79f535"
+  },
+  "deployment": {
+    "descriptor_endpoint": "/volumes/railroad-1959-v0",
+    "compile_endpoint": "/volumes/railroad-1959-v0/compile",
+    "reference_eval_endpoint": "/volumes/railroad-1959-v0/reference-eval",
+    "container_image": "ghcr.io/harleycoops/volume2gym",
+    "model_mode": "symbolic-reference",
+    "neural_inference": false
+  },
+  "limitations": [
+    "OCR-derived text has not received line-by-line human review.",
+    "Source and derived-text redistribution rights have not been established.",
+    "The perfect symbolic reference score verifies contract consistency, not neural learning or generalization.",
+    "This historical volume is not current railroad operating instruction."
+  ]
+}

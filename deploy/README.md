@@ -3,6 +3,10 @@
 This container exposes the source-to-artifact path that is currently proven by the repository:
 
 - `GET /health`
+- `GET /volumes`
+- `GET /volumes/railroad-1959-v0`
+- `POST /volumes/railroad-1959-v0/compile`
+- `POST /volumes/railroad-1959-v0/reference-eval`
 - `POST /compile`
 - `POST /reference-eval`
 
@@ -19,6 +23,9 @@ In another terminal:
 
 ```bash
 curl http://127.0.0.1:8000/health
+curl http://127.0.0.1:8000/volumes/railroad-1959-v0
+curl -X POST http://127.0.0.1:8000/volumes/railroad-1959-v0/compile
+curl -X POST http://127.0.0.1:8000/volumes/railroad-1959-v0/reference-eval
 
 python - <<'PY' | curl -sS \
   -H 'Content-Type: application/json' \
@@ -33,6 +40,15 @@ print(json.dumps({
 }))
 PY
 ```
+
+The named compile endpoint rebuilds the checked volume from the committed rule
+corpus. The named reference endpoint evaluates only the held-out test split.
+Neither endpoint runs a neural model.
+
+On configured branches and version tags, GitHub Actions publishes the container
+to `ghcr.io/harleycoops/volume2gym`. A container publication is not an always-on
+HTTP host; record the provider URL and health evidence separately when one is
+provisioned.
 
 ## Hosted deployment contract
 

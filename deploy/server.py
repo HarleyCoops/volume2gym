@@ -9,13 +9,19 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import tempfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
+from volume2gym.models import Split
 from volume2gym.pipeline import compile_build, inspect_build, load_build, validate_build
 from volume2gym.trainers import SymbolicTrainer, evaluate_policy
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_VOLUME_ROOT = REPOSITORY_ROOT / "volumes"
 
 
 def _jsonable(value: Any) -> Any:
@@ -101,6 +107,121 @@ def _reference_eval(payload: dict[str, Any]) -> dict[str, Any]:
         }
 
 
+def _volume_root(override: str | Path | None = None) -> Path:
+    configured = override or os.environ.get("SOURCE2AGENT_VOLUME_ROOT") or DEFAULT_VOLUME_ROOT
+    return Path(configured).resolve()
+
+
+def _safe_volume_dir(volume_id: str, *, volume_root: str | Path | None = None) -> Path:
+    allowed = "abcdefghijklmnopqrstuvwxyz0123456789-_"
+    if not volume_id or any(character not in allowed for character in volume_id):
+        raise ValueError(
+            "volume_id may contain only lowercase letters, digits, hyphens, and underscores"
+        )
+    root = _volume_root(volume_root)
+    candidate = (root / volume_id).resolve()
+    if candidate.parent != root:
+        raise ValueError("volume_id resolves outside the volume root")
+    return candidate
+
+
+def _load_volume_descriptor(
+    volume_id: str,
+    *,
+    volume_root: str | Path | None = None,
+) -> dict[str, Any]:
+    descriptor_path = _safe_volume_dir(volume_id, volume_root=volume_root) / "volume.json"
+    if not descriptor_path.is_file():
+        raise FileNotFoundError(f"unknown volume: {volume_id}")
+    descriptor = json.loads(descriptor_path.read_text(encoding="utf-8"))
+    if not isinstance(descriptor, dict) or descriptor.get("volume_id") != volume_id:
+        raise ValueError(f"invalid descriptor for volume {volume_id}")
+    return descriptor
+
+
+def _available_volumes(*, volume_root: str | Path | None = None) -> list[dict[str, Any]]:
+    root = _volume_root(volume_root)
+    if not root.is_dir():
+        return []
+    descriptors: list[dict[str, Any]] = []
+    for descriptor_path in sorted(root.glob("*/volume.json")):
+        descriptors.append(
+            _load_volume_descriptor(descriptor_path.parent.name, volume_root=root)
+        )
+    return descriptors
+
+
+def _compile_named_volume(
+    volume_id: str,
+    *,
+    volume_root: str | Path | None = None,
+) -> dict[str, Any]:
+    descriptor = _load_volume_descriptor(volume_id, volume_root=volume_root)
+    volume_dir = _safe_volume_dir(volume_id, volume_root=volume_root)
+    rules_path = (volume_dir / str(descriptor["corpus"]["rules_path"])).resolve()
+    if rules_path.parent != volume_dir or not rules_path.is_file():
+        raise ValueError(f"invalid rules_path for volume {volume_id}")
+    build_config = descriptor["build"]
+    with tempfile.TemporaryDirectory(prefix=f"source2agent-{volume_id}-") as work:
+        build_path = Path(work) / "build"
+        compile_build(
+            volume_id=volume_id,
+            output_dir=build_path,
+            railroad_rules_path=rules_path,
+            document_id=str(descriptor["document"]["document_id"]),
+            seed=int(build_config["seed"]),
+            group_by=str(build_config["group_by"]),
+            source_revision=str(descriptor["document"]["source_revision"]),
+        )
+        validated = validate_build(build_path)
+        inspected = inspect_build(build_path)
+        return {
+            "product": "Source2Agent",
+            "engine": "volume2gym",
+            "mode": "named-volume-compiler",
+            "volume_id": volume_id,
+            "validated": _jsonable(validated),
+            "inspection": _jsonable(inspected),
+        }
+
+
+def _reference_eval_named_volume(
+    volume_id: str,
+    *,
+    volume_root: str | Path | None = None,
+) -> dict[str, Any]:
+    descriptor = _load_volume_descriptor(volume_id, volume_root=volume_root)
+    volume_dir = _safe_volume_dir(volume_id, volume_root=volume_root)
+    rules_path = (volume_dir / str(descriptor["corpus"]["rules_path"])).resolve()
+    build_config = descriptor["build"]
+    with tempfile.TemporaryDirectory(prefix=f"source2agent-eval-{volume_id}-") as work:
+        build_path = Path(work) / "build"
+        compile_build(
+            volume_id=volume_id,
+            output_dir=build_path,
+            railroad_rules_path=rules_path,
+            document_id=str(descriptor["document"]["document_id"]),
+            seed=int(build_config["seed"]),
+            group_by=str(build_config["group_by"]),
+            source_revision=str(descriptor["document"]["source_revision"]),
+        )
+        tasks = tuple(task for task in load_build(build_path).tasks if task.split is Split.TEST)
+        policy = SymbolicTrainer().train(tasks)
+        records = evaluate_policy(policy, tasks)
+        scores = [float(record.reward_ledger.total_score or 0.0) for record in records]
+        return {
+            "product": "Source2Agent",
+            "engine": "volume2gym",
+            "mode": "symbolic-reference",
+            "volume_id": volume_id,
+            "model_id": policy.model_id,
+            "split": "test",
+            "task_count": len(records),
+            "mean_total_score": sum(scores) / len(scores),
+            "neural_model": False,
+        }
+
+
 class Handler(BaseHTTPRequestHandler):
     server_version = "Source2Agent/0.1"
 
@@ -113,27 +234,53 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self) -> None:  # noqa: N802
-        if self.path == "/health":
+        path = urlparse(self.path).path
+        if path == "/health":
             self._send(200, {"status": "healthy", "product": "Source2Agent"})
+            return
+        if path == "/volumes":
+            volumes = _available_volumes()
+            self._send(
+                200,
+                {
+                    "product": "Source2Agent",
+                    "count": len(volumes),
+                    "volumes": volumes,
+                },
+            )
+            return
+        if path.startswith("/volumes/") and path.count("/") == 2:
+            try:
+                self._send(200, _load_volume_descriptor(path.removeprefix("/volumes/")))
+            except (FileNotFoundError, OSError, TypeError, ValueError) as exc:
+                self._send(404, {"error": str(exc)})
             return
         self._send(404, {"error": "not found"})
 
     def do_POST(self) -> None:  # noqa: N802
-        if self.path not in {"/compile", "/reference-eval"}:
+        path = urlparse(self.path).path
+        named_match = re.fullmatch(
+            r"/volumes/([a-z0-9_-]+)/(compile|reference-eval)", path
+        )
+        if path not in {"/compile", "/reference-eval"} and named_match is None:
             self._send(404, {"error": "not found"})
             return
         try:
             length = int(self.headers.get("Content-Length", "0"))
-            payload = json.loads(self.rfile.read(length))
+            payload = json.loads(self.rfile.read(length)) if length else {}
             if not isinstance(payload, dict):
                 raise ValueError("request body must be a JSON object")
-            result = (
-                _compile(payload)
-                if self.path == "/compile"
-                else _reference_eval(payload)
-            )
+            if named_match:
+                volume_id, operation = named_match.groups()
+                result = (
+                    _compile_named_volume(volume_id)
+                    if operation == "compile"
+                    else _reference_eval_named_volume(volume_id)
+                )
+            else:
+                result = _compile(payload) if path == "/compile" else _reference_eval(payload)
             self._send(200, result)
-        except (OSError, TypeError, ValueError) as exc:
+        except (FileNotFoundError, OSError, TypeError, ValueError) as exc:
             self._send(400, {"error": str(exc)})
 
     def log_message(self, format: str, *args: object) -> None:

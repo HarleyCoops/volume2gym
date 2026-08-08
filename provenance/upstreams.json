@@ -17,6 +17,28 @@
       ]
     },
     {
+      "id": "railroad-1959-v0-scan",
+      "host": "github",
+      "repository": "https://github.com/HarleyCoops/Qwen3-RailroadEngineer1959-RL",
+      "revision": "cd7cfd8bab3d9d9c33446c971f5df8276e5a29f4",
+      "source_path": "Public/1959RailRoadCodeRL.pdf",
+      "source_sha256": "c96a60c2b20e7b34d9bd689d57b2ec5b8c71362545b889c479bdf04fe6444350",
+      "source_page_count": 117,
+      "local_path": "volumes/railroad-1959-v0",
+      "derived_rules_sha256": "c9728ab66d21a59f1d24fa3bc771787e3b7141f1b758cc22c3199caa0439bf27",
+      "extracted_rule_count": 457,
+      "compiled_task_count": 2742,
+      "copy_policy": "derived OCR rule corpus only; original scan excluded",
+      "rights_status": "unknown",
+      "redistribution_cleared": false,
+      "excluded": [
+        "source PDF",
+        "OCR PDF",
+        "raw OCR text",
+        "generated build and trainer exports"
+      ]
+    },
+    {
       "id": "rule99-dataset-fixture",
       "host": "huggingface",
       "repository": "https://huggingface.co/datasets/HarleyCooper/volume2gym-railroad-1959",
