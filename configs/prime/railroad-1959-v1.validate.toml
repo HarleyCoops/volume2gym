@@ -1,0 +1,14 @@
+num_tasks = 2742
+max_concurrent = 32
+rich = false
+
+[taskset]
+id = "railroad-1959-v1"
+split = "all"
+
+[runtime]
+type = "subprocess"
+
+[timeout]
+setup = 30.0
+total = 30.0
