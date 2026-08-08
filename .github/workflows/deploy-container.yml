@@ -1,6 +1,7 @@
 name: Publish Source2Agent container
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
