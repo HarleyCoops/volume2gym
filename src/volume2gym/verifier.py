@@ -285,6 +285,12 @@ def _validated_weights(overrides: Mapping[str, float] | None) -> dict[str, float
     total = sum(selected.values())
     if total <= 0:
         raise ValueError("at least one reward weight must be greater than zero")
+    if math.isclose(total, 1.0, rel_tol=0.0, abs_tol=1e-12):
+        # Preserve the declared contract across Python versions. Python 3.11's
+        # sequential float sum represents these defaults as 1.0000000000000002;
+        # dividing by that artifact changes serialized weights even though the
+        # contract is already normalized.
+        return {component_id: selected[component_id] for component_id in _COMPONENT_ORDER}
     return {component_id: selected[component_id] / total for component_id in _COMPONENT_ORDER}
 
 

@@ -89,6 +89,12 @@ def test_custom_weights_are_normalized_and_configurable():
     assert ledger.total_score == 0.0
 
 
+def test_default_weights_preserve_declared_serialization():
+    verifier = DeterministicVerifier()
+
+    assert verifier.weights == DEFAULT_WEIGHTS
+
+
 def test_invalid_raw_response_returns_schema_failure_instead_of_crashing():
     response = ModelResponse(
         response_id="response-1",
